@@ -5,7 +5,7 @@ This repository contains practical implementations and exercises covering variou
 ## Technologies Covered
 
 - Hadoop
-- 
+- HDFS
 - MapReduce
 - Apache Cassandra
 - Apache Spark
