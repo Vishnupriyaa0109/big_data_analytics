@@ -1,1 +1,181 @@
+HDFS BASIC COMMANDS
 
+1. Start Hadoop Services
+
+Start HDFS:
+
+start-dfs.sh
+
+Start YARN:
+
+start-yarn.sh
+
+Verify running services:
+
+jps
+
+
+2. Create an HDFS Directory
+
+Command:
+
+hdfs dfs -mkdir /bigdata
+
+Purpose:
+
+Creates a directory named bigdata in HDFS.
+
+
+3. Create an Input Directory
+
+Command:
+
+hdfs dfs -mkdir /bigdata/input
+
+Purpose:
+
+Creates an input directory inside the bigdata directory.
+
+
+4. List HDFS Directories
+
+Command:
+
+hdfs dfs -ls /bigdata
+
+Purpose:
+
+Displays the contents of the bigdata directory.
+
+
+5. Upload a File to HDFS
+
+Command:
+
+hdfs dfs -put sample1.txt /bigdata/input/
+
+Purpose:
+
+Uploads sample1.txt from the local file system to HDFS.
+
+
+6. Upload Multiple Files
+
+Command:
+
+hdfs dfs -put sample2.txt sample3.txt /bigdata/input/
+
+Purpose:
+
+Uploads sample2.txt and sample3.txt to the HDFS input directory.
+
+
+7. List Uploaded Files
+
+Command:
+
+hdfs dfs -ls /bigdata/input
+
+Purpose:
+
+Displays the files stored in the HDFS input directory.
+
+
+8. Display File Contents
+
+Command:
+
+hdfs dfs -cat /bigdata/input/sample1.txt
+
+Purpose:
+
+Displays the contents of sample1.txt stored in HDFS.
+
+
+9. Display Another File
+
+Command:
+
+hdfs dfs -cat /bigdata/input/sample2.txt
+
+
+10. Display the Third File
+
+Command:
+
+hdfs dfs -cat /bigdata/input/sample3.txt
+
+
+11. Download a File from HDFS
+
+Command:
+
+hdfs dfs -get /bigdata/input/sample1.txt downloaded.txt
+
+Purpose:
+
+Downloads sample1.txt from HDFS to the local file system and saves it as downloaded.txt.
+
+
+12. Verify the Downloaded File
+
+Command:
+
+cat downloaded.txt
+
+Purpose:
+
+Displays the contents of the downloaded file.
+
+
+13. Display File Information
+
+Command:
+
+hdfs dfs -ls -h /bigdata/input
+
+Purpose:
+
+Displays HDFS files with human-readable file sizes.
+
+
+14. Check File Replication
+
+Command:
+
+hdfs dfs -stat %r /bigdata/input/sample1.txt
+
+Purpose:
+
+Displays the replication factor of sample1.txt.
+
+
+15. Check HDFS Blocks
+
+Command:
+
+hdfs fsck /bigdata/input/sample1.txt -files -blocks -locations
+
+Purpose:
+
+Displays information about the file, its blocks, and their locations.
+
+
+16. Stop Hadoop Services
+
+Stop YARN:
+
+stop-yarn.sh
+
+Stop HDFS:
+
+stop-dfs.sh
+
+Verify the services:
+
+jps
+
+
+RESULT
+
+Basic HDFS operations were successfully performed, including directory creation, file uploading, file listing, file viewing, file downloading, replication checking, and block inspection.
