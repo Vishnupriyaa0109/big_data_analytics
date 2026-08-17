@@ -1,14 +1,3 @@
-Got it. **Text only. No DOCX, no screenshot generation.**
-
-And now I can see your actual WSL prompt:
-
-```text
-vishnupriya_reddy2-9@LAPTOP-Q0UV996:~$
-```
-
-So we can write the Hadoop installation guide specifically for **your WSL Ubuntu environment**, without fake usernames or generic placeholders.
-
-Use the following as the content for `1 Hadoop_Installation_Guide`:
 
 # Hadoop Installation Guide
 
