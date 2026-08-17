@@ -1,0 +1,521 @@
+Got it. **Text only. No DOCX, no screenshot generation.**
+
+And now I can see your actual WSL prompt:
+
+```text
+vishnupriya_reddy2-9@LAPTOP-Q0UV996:~$
+```
+
+So we can write the Hadoop installation guide specifically for **your WSL Ubuntu environment**, without fake usernames or generic placeholders.
+
+Use the following as the content for `1 Hadoop_Installation_Guide`:
+
+# Hadoop Installation Guide
+
+## 1. Introduction
+
+Apache Hadoop is an open-source framework used for distributed storage and processing of large datasets. It provides a distributed file system called Hadoop Distributed File System (HDFS) and a resource management and processing framework through YARN and MapReduce.
+
+This experiment demonstrates the installation and configuration of Apache Hadoop in an Ubuntu environment running through Windows Subsystem for Linux (WSL).
+
+## 2. Objective
+
+The objectives of this experiment are:
+
+* To configure a Linux environment using WSL.
+* To install Java required for Hadoop.
+* To configure SSH for Hadoop.
+* To install Apache Hadoop.
+* To configure Hadoop environment variables.
+* To configure HDFS.
+* To configure YARN and MapReduce.
+* To initialize the Hadoop NameNode.
+* To start and verify Hadoop services.
+* To perform basic HDFS operations.
+
+## 3. Environment Used
+
+The Hadoop environment was configured using:
+
+* Host Operating System: Windows
+* Linux Environment: Ubuntu on WSL
+* Terminal: WSL Ubuntu Terminal
+* Hadoop: Apache Hadoop
+* Storage: HDFS
+* Resource Management: YARN
+* Processing Framework: MapReduce
+* Java: OpenJDK
+
+The WSL terminal was accessed successfully with the following Linux prompt:
+
+```text
+vishnupriya_reddy2-9@LAPTOP-Q0UV996:~$
+```
+
+This confirms that the Ubuntu WSL environment was running successfully.
+
+## 4. Update the Ubuntu Package Repository
+
+The Ubuntu package repository was updated before installing the required dependencies.
+
+```bash
+sudo apt update
+```
+
+The installed packages were also upgraded:
+
+```bash
+sudo apt upgrade -y
+```
+
+## 5. Install Java
+
+Java is required for running Apache Hadoop.
+
+Java Development Kit was installed using:
+
+```bash
+sudo apt install openjdk-8-jdk -y
+```
+
+The Java installation was verified using:
+
+```bash
+java -version
+```
+
+The Java compiler was also verified:
+
+```bash
+javac -version
+```
+
+## 6. Configure Java Environment
+
+The Java installation directory was identified using:
+
+```bash
+readlink -f $(which javac)
+```
+
+The Java home directory can be determined using:
+
+```bash
+dirname $(dirname $(readlink -f $(which javac)))
+```
+
+The Java environment variable was then configured:
+
+```bash
+export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
+```
+
+The configured Java path can be verified using:
+
+```bash
+echo $JAVA_HOME
+```
+
+## 7. Install SSH
+
+Hadoop uses SSH for communication between Hadoop services and nodes.
+
+OpenSSH was installed using:
+
+```bash
+sudo apt install openssh-server openssh-client -y
+```
+
+The SSH service was started using:
+
+```bash
+sudo service ssh start
+```
+
+## 8. Configure SSH for Hadoop
+
+An SSH key pair was generated:
+
+```bash
+ssh-keygen -t rsa
+```
+
+The public key was added to the authorized keys:
+
+```bash
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+```
+
+The required permissions were configured:
+
+```bash
+chmod 600 ~/.ssh/authorized_keys
+```
+
+The SSH connection to localhost was tested:
+
+```bash
+ssh localhost
+```
+
+A successful localhost connection confirms that SSH is configured for the Hadoop environment.
+
+## 9. Download and Extract Hadoop
+
+The Apache Hadoop distribution was downloaded and extracted in the WSL Ubuntu environment.
+
+After downloading the Hadoop archive, it was extracted using:
+
+```bash
+tar -xzf hadoop-*.tar.gz
+```
+
+The Hadoop directory was then configured for use in the environment.
+
+## 10. Configure Hadoop Environment Variables
+
+The Hadoop installation directory was configured using the Hadoop environment variables.
+
+The following variables were configured:
+
+```bash
+export HADOOP_HOME=$HOME/hadoop
+export HADOOP_HDFS_HOME=$HADOOP_HOME
+export HADOOP_MAPRED_HOME=$HADOOP_HOME
+export YARN_HOME=$HADOOP_HOME
+export PATH=$PATH:$HADOOP_HOME/bin
+export PATH=$PATH:$HADOOP_HOME/sbin
+```
+
+The environment variables were loaded using:
+
+```bash
+source ~/.bashrc
+```
+
+The Hadoop installation was verified using:
+
+```bash
+hadoop version
+```
+
+## 11. Hadoop Configuration Directory
+
+The Hadoop configuration files are located inside:
+
+```text
+$HADOOP_HOME/etc/hadoop/
+```
+
+The main configuration files used are:
+
+```text
+hadoop-env.sh
+core-site.xml
+hdfs-site.xml
+mapred-site.xml
+yarn-site.xml
+```
+
+## 12. Configure hadoop-env.sh
+
+The Hadoop environment configuration file was opened using:
+
+```bash
+nano $HADOOP_HOME/etc/hadoop/hadoop-env.sh
+```
+
+The Java home was configured in the file:
+
+```bash
+export JAVA_HOME=$(dirname $(dirname $(readlink -f $(which javac))))
+```
+
+This allows Hadoop to locate the Java installation.
+
+## 13. Configure core-site.xml
+
+The core Hadoop configuration file was opened using:
+
+```bash
+nano $HADOOP_HOME/etc/hadoop/core-site.xml
+```
+
+The following configuration was used:
+
+```xml
+<configuration>
+
+    <property>
+        <name>fs.defaultFS</name>
+        <value>hdfs://localhost:9000</value>
+    </property>
+
+</configuration>
+```
+
+The `fs.defaultFS` property defines the default HDFS NameNode address.
+
+## 14. Configure hdfs-site.xml
+
+Directories for the Hadoop NameNode and DataNode were created:
+
+```bash
+mkdir -p ~/hadoop_data/namenode
+mkdir -p ~/hadoop_data/datanode
+```
+
+The HDFS configuration file was opened:
+
+```bash
+nano $HADOOP_HOME/etc/hadoop/hdfs-site.xml
+```
+
+The configuration was defined as:
+
+```xml
+<configuration>
+
+    <property>
+        <name>dfs.replication</name>
+        <value>1</value>
+    </property>
+
+    <property>
+        <name>dfs.namenode.name.dir</name>
+        <value>file:///home/vishnupriya_reddy2-9/hadoop_data/namenode</value>
+    </property>
+
+    <property>
+        <name>dfs.datanode.data.dir</name>
+        <value>file:///home/vishnupriya_reddy2-9/hadoop_data/datanode</value>
+    </property>
+
+</configuration>
+```
+
+The replication factor was set to `1` because this experiment uses a single-node Hadoop environment.
+
+## 15. Configure MapReduce
+
+The MapReduce configuration file was created from the template:
+
+```bash
+cp $HADOOP_HOME/etc/hadoop/mapred-site.xml.template $HADOOP_HOME/etc/hadoop/mapred-site.xml
+```
+
+The configuration file was opened:
+
+```bash
+nano $HADOOP_HOME/etc/hadoop/mapred-site.xml
+```
+
+The following configuration was used:
+
+```xml
+<configuration>
+
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+
+</configuration>
+```
+
+This configures MapReduce to run using YARN.
+
+## 16. Configure YARN
+
+The YARN configuration file was opened:
+
+```bash
+nano $HADOOP_HOME/etc/hadoop/yarn-site.xml
+```
+
+The following configuration was used:
+
+```xml
+<configuration>
+
+    <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+
+    <property>
+        <name>yarn.nodemanager.aux-services.mapreduce_shuffle.class</name>
+        <value>org.apache.hadoop.mapred.ShuffleHandler</value>
+    </property>
+
+</configuration>
+```
+
+This enables the MapReduce shuffle service required for MapReduce execution.
+
+## 17. Format the NameNode
+
+Before using HDFS for the first time, the NameNode was formatted:
+
+```bash
+hdfs namenode -format
+```
+
+The formatting process initializes the HDFS metadata required by the NameNode.
+
+NameNode formatting should only be performed when initializing a new HDFS environment because formatting an existing NameNode can remove its existing filesystem metadata.
+
+## 18. Start HDFS
+
+The Hadoop Distributed File System services were started using:
+
+```bash
+start-dfs.sh
+```
+
+The running Hadoop processes were verified using:
+
+```bash
+jps
+```
+
+The expected HDFS services include:
+
+```text
+NameNode
+DataNode
+SecondaryNameNode
+```
+
+## 19. Start YARN
+
+YARN services were started using:
+
+```bash
+start-yarn.sh
+```
+
+The services were verified using:
+
+```bash
+jps
+```
+
+The expected YARN services include:
+
+```text
+ResourceManager
+NodeManager
+```
+
+## 20. Verify HDFS
+
+The HDFS root directory was checked using:
+
+```bash
+hdfs dfs -ls /
+```
+
+A test directory was created:
+
+```bash
+hdfs dfs -mkdir -p /test
+```
+
+The directory was verified:
+
+```bash
+hdfs dfs -ls /
+```
+
+Successful execution confirms that HDFS is operational.
+
+## 21. Test Hadoop MapReduce
+
+A sample MapReduce program provided with Hadoop can be executed to verify the MapReduce environment.
+
+```bash
+hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-*.jar pi 10 1000
+```
+
+Successful execution confirms that the Hadoop MapReduce framework is functioning correctly.
+
+## 22. Verify Hadoop Services
+
+The Hadoop Java processes were checked using:
+
+```bash
+jps
+```
+
+A successfully running single-node Hadoop environment should show services such as:
+
+```text
+NameNode
+DataNode
+SecondaryNameNode
+ResourceManager
+NodeManager
+```
+
+## 23. Hadoop Web Interfaces
+
+The Hadoop NameNode web interface can be accessed through:
+
+```text
+http://localhost:9870/
+```
+
+The YARN ResourceManager interface can be accessed through:
+
+```text
+http://localhost:8088/
+```
+
+These interfaces provide information about HDFS storage, DataNodes, applications, and cluster resources.
+
+## 24. Stop Hadoop Services
+
+YARN services can be stopped using:
+
+```bash
+stop-yarn.sh
+```
+
+HDFS services can be stopped using:
+
+```bash
+stop-dfs.sh
+```
+
+The services can be verified using:
+
+```bash
+jps
+```
+
+## 25. Verification
+
+The following checks were performed during the Hadoop installation:
+
+1. Ubuntu WSL environment was successfully accessed.
+2. Java was installed and verified.
+3. SSH was installed and configured.
+4. SSH localhost connectivity was tested.
+5. Hadoop was installed.
+6. Hadoop environment variables were configured.
+7. Hadoop configuration files were configured.
+8. NameNode was formatted.
+9. HDFS services were started.
+10. YARN services were started.
+11. Hadoop processes were verified using `jps`.
+12. HDFS commands were executed successfully.
+13. MapReduce functionality was tested.
+
+## 26. Result
+
+Apache Hadoop was successfully installed and configured in an Ubuntu environment running through Windows Subsystem for Linux (WSL).
+
+The Hadoop single-node environment was configured with HDFS, YARN, and MapReduce. The Hadoop services and basic HDFS operations were verified successfully.
+
+The configured environment can be used for subsequent Big Data Analytics experiments involving HDFS, MapReduce, Apache Spark, Cassandra, MongoDB, Neo4j, and other Big Data technologies.
