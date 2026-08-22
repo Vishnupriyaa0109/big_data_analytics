@@ -1,0 +1,186 @@
+WEATHER DATA ANALYSIS USING HADOOP MAPREDUCE
+
+1. Objective
+
+The objective of this experiment is to analyze weather temperature data using Hadoop MapReduce and Hadoop Streaming.
+
+The analysis identifies:
+
+- The hottest day based on maximum temperature.
+- The coldest day based on minimum temperature.
+
+2. Technologies Used
+
+Apache Hadoop
+HDFS
+Hadoop Streaming
+Python 3
+MapReduce
+Ubuntu / WSL
+
+3. Dataset
+
+The input dataset is:
+
+weather_data.txt
+
+Each record contains four fields:
+
+Date
+City
+Maximum Temperature
+Minimum Temperature
+
+Example:
+
+2024-01-01,Delhi,12,5
+
+4. Dataset Structure
+
+The dataset follows this format:
+
+date,city,max_temperature,min_temperature
+
+5. Start Hadoop Services
+
+Start HDFS:
+
+start-dfs.sh
+
+Start YARN:
+
+start-yarn.sh
+
+Check Hadoop services:
+
+jps
+
+6. Create HDFS Directory
+
+Create the input directory:
+
+hdfs dfs -mkdir -p /weather/input
+
+7. Upload Weather Dataset
+
+Upload the dataset to HDFS:
+
+hdfs dfs -put weather_large.txt /weather/input/
+
+8. Verify Uploaded Dataset
+
+Check the files stored in HDFS:
+
+hdfs dfs -ls /weather/input
+
+9. View Weather Dataset
+
+Display the dataset:
+
+hdfs dfs -cat /weather/input/weather_large.txt
+
+10. Give Execute Permission to Python Programs
+
+Run:
+
+chmod +x mapper_max_temp.py
+chmod +x mapper_min_temp.py
+chmod +x reducer_max_temp.py
+chmod +x reducer_min_temp.py
+
+11. Hadoop Streaming JAR
+
+Find the Hadoop Streaming JAR:
+
+ls $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming*.jar
+
+12. Maximum Temperature Analysis
+
+Run Hadoop Streaming for maximum temperature:
+
+hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-*.jar \
+-input /weather/input/weather_large.txt \
+-output /weather/output_max \
+-mapper mapper_max_temp.py \
+-reducer reducer_max_temp.py \
+-file mapper_max_temp.py \
+-file reducer_max_temp.py
+
+13. View Hottest Day Result
+
+Display the output:
+
+hdfs dfs -cat /weather/output_max/part-00000
+
+Expected result format:
+
+Hottest Day: YYYY-MM-DD with XX.0°C
+
+14. Minimum Temperature Analysis
+
+Run Hadoop Streaming for minimum temperature:
+
+hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-*.jar \
+-input /weather/input/weather_large.txt \
+-output /weather/output_min \
+-mapper mapper_min_temp.py \
+-reducer reducer_min_temp.py \
+-file mapper_min_temp.py \
+-file reducer_min_temp.py
+
+15. View Coldest Day Result
+
+Display the output:
+
+hdfs dfs -cat /weather/output_min/part-00000
+
+Expected result format:
+
+Coldest Day: YYYY-MM-DD with XX.0°C
+
+16. Check Output Directories
+
+Maximum temperature output:
+
+hdfs dfs -ls /weather/output_max
+
+Minimum temperature output:
+
+hdfs dfs -ls /weather/output_min
+
+17. Remove Existing Output
+
+If an output directory already exists, remove it before running the MapReduce job again.
+
+Remove maximum temperature output:
+
+hdfs dfs -rm -r /weather/output_max
+
+Remove minimum temperature output:
+
+hdfs dfs -rm -r /weather/output_min
+
+18. Result
+
+The weather dataset was successfully processed using Hadoop Streaming and Python Mapper and Reducer programs.
+
+The maximum temperature analysis identifies the hottest day, while the minimum temperature analysis identifies the coldest day.
+
+19. Learning Outcomes
+
+After completing this experiment, the following concepts are understood:
+
+- Hadoop Streaming.
+- Python Mapper programs.
+- Python Reducer programs.
+- HDFS data storage.
+- Distributed processing of weather data.
+- Maximum temperature analysis.
+- Minimum temperature analysis.
+- Hottest and coldest day identification.
+
+20. Conclusion
+
+This experiment demonstrates how Hadoop MapReduce and Hadoop Streaming can be used with Python programs to process weather data stored in HDFS.
+
+The custom Mapper and Reducer programs successfully analyze temperature data and identify extreme temperature conditions.
