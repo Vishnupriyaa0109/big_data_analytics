@@ -1,0 +1,234 @@
+HADOOP + CASSANDRA INTEGRATION
+
+1. Overview
+
+This project demonstrates the integration of Apache Hadoop and Apache Cassandra for processing and storing large-scale music streaming data.
+
+Hadoop is used for distributed batch processing, while Cassandra is used as the NoSQL database for storing real-time and processed results.
+
+2. Objective
+
+The objectives of this project are:
+
+- Generate a large batch dataset containing music streaming records.
+- Store the dataset in HDFS.
+- Process the dataset using Hadoop MapReduce.
+- Calculate daily listening aggregates.
+- Identify the top songs.
+- Store Hadoop results in Cassandra.
+- Demonstrate Hadoop and Cassandra integration.
+
+3. Technologies Used
+
+Apache Hadoop
+HDFS
+Hadoop MapReduce
+Hadoop Streaming
+Apache Cassandra
+Docker
+Docker Compose
+Python
+CQL
+
+4. Project Architecture
+
+Music Streaming Data
+        |
+        +----------------------+
+        |                      |
+        v                      v
+   Cassandra              Batch Dataset
+   Real-time Data          100,000 Records
+                               |
+                               v
+                             HDFS
+                               |
+                               v
+                       Hadoop MapReduce
+                               |
+                 +-------------+-------------+
+                 |                           |
+                 v                           v
+        Daily Aggregates              Top Songs
+                 |                           |
+                 +-------------+-------------+
+                               |
+                               v
+                         Cassandra
+                         Final Results
+
+5. Dataset
+
+The batch dataset contains 100,000 music streaming records.
+
+Each record contains:
+
+user_id
+timestamp
+song
+artist
+session_id
+duration
+
+Example:
+
+user_1,2024-01-01 10:30:00,Song A,Artist A,session_1,245
+
+6. Start Cassandra
+
+Start Cassandra using Docker Compose:
+
+docker compose up -d
+
+Check the running container:
+
+docker ps
+
+View Cassandra logs:
+
+docker logs cassandra
+
+7. Create Cassandra Schema
+
+Connect to Cassandra:
+
+docker exec -it cassandra cqlsh
+
+Load the Cassandra schema:
+
+docker exec -i cassandra cqlsh < scripts/cassandra_schema.cql
+
+8. Generate Batch Dataset
+
+Generate the 100,000-record dataset:
+
+python3 scripts/generate_batch_data.py
+
+The generated file is:
+
+data/batch_plays.csv
+
+9. Upload Dataset to HDFS
+
+Create the HDFS input directory:
+
+hdfs dfs -mkdir -p /hadoop_cassandra/input
+
+Upload the dataset:
+
+hdfs dfs -put data/batch_plays.csv /hadoop_cassandra/input/
+
+Verify the uploaded dataset:
+
+hdfs dfs -ls /hadoop_cassandra/input
+
+10. Run Hadoop Jobs
+
+Run the Hadoop processing jobs:
+
+bash scripts/run_hadoop_jobs.sh
+
+The Hadoop jobs perform:
+
+- Daily listening aggregation.
+- Top songs analysis.
+
+11. Daily Aggregation
+
+The daily aggregation MapReduce job calculates listening activity by date.
+
+The Mapper extracts the date and listening duration.
+
+The Reducer aggregates the listening values for each date.
+
+The output is stored in:
+
+output/daily_aggregates.txt
+
+12. Top Songs Analysis
+
+The Top Songs MapReduce job identifies frequently played songs.
+
+The Mapper extracts song information.
+
+The Reducer aggregates the number of plays.
+
+The output is stored in:
+
+output/top_songs.txt
+
+13. Load Hadoop Results into Cassandra
+
+Load the generated Hadoop results:
+
+python3 scripts/load_hadoop_results.py
+
+14. Verify Cassandra Data
+
+Connect to Cassandra:
+
+docker exec -it cassandra cqlsh
+
+Use the appropriate keyspace and query the tables to verify that the Hadoop results have been loaded successfully.
+
+15. Important Hadoop Commands
+
+Check HDFS:
+
+hdfs dfs -ls /
+
+Check Hadoop input:
+
+hdfs dfs -ls /hadoop_cassandra/input
+
+Display the input dataset:
+
+hdfs dfs -cat /hadoop_cassandra/input/batch_plays.csv
+
+16. Important Docker Commands
+
+Start Cassandra:
+
+docker compose up -d
+
+Check Cassandra:
+
+docker ps
+
+View Cassandra logs:
+
+docker logs cassandra
+
+Stop Cassandra:
+
+docker compose down
+
+17. Result
+
+The Hadoop and Cassandra integration pipeline was successfully demonstrated.
+
+The large music streaming dataset was generated, stored in HDFS, processed using Hadoop MapReduce, and the analytical results were prepared for storage in Cassandra.
+
+18. Learning Outcomes
+
+After completing this project, the following concepts are understood:
+
+- Hadoop HDFS.
+- Hadoop MapReduce.
+- Hadoop Streaming.
+- Python Mapper programs.
+- Python Reducer programs.
+- Cassandra data modeling.
+- Docker-based Cassandra deployment.
+- Batch data processing.
+- Real-time and batch data integration.
+- Loading Hadoop results into Cassandra.
+- Distributed data processing.
+
+19. Conclusion
+
+This project demonstrates how Apache Hadoop and Apache Cassandra can be integrated to create a distributed data processing pipeline.
+
+Hadoop provides distributed storage and batch processing, while Cassandra provides scalable NoSQL storage.
+
+The combination provides a practical architecture for processing and analyzing large-scale music streaming data.
