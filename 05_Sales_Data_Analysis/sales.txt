@@ -1,0 +1,10 @@
+Laptop,Electronics,55000
+Mobile,Electronics,25000
+Tablet,Electronics,18000
+Headphones,Accessories,3000
+Keyboard,Accessories,1500
+Mouse,Accessories,800
+Monitor,Electronics,12000
+Printer,Electronics,15000
+Camera,Electronics,35000
+Speaker,Accessories,5000
