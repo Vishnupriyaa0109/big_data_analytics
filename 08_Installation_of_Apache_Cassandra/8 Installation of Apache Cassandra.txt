@@ -1,0 +1,219 @@
+INSTALLATION OF APACHE CASSANDRA ON UBUNTU WSL USING DOCKER
+
+1. Objective
+
+The objective of this experiment is to install and configure Apache Cassandra on Ubuntu WSL using Docker.
+
+The experiment demonstrates:
+
+- Installing Docker.
+- Configuring Docker.
+- Creating a Docker Compose configuration.
+- Starting a Cassandra container.
+- Installing CQLSH.
+- Connecting to Cassandra.
+- Verifying the Cassandra installation.
+
+2. Technologies Used
+
+Ubuntu WSL
+Docker
+Docker Compose
+Apache Cassandra
+CQLSH
+
+3. Verify Ubuntu Installation
+
+Run:
+
+lsb_release -a
+
+4. Update System Packages
+
+Run:
+
+sudo apt update
+
+sudo apt upgrade -y
+
+5. Install Required Dependencies
+
+Run:
+
+sudo apt install -y apt-transport-https ca-certificates curl gnupg lsb-release
+
+6. Add Docker Repository
+
+Add the Docker GPG key:
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+Add the Docker repository:
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+
+7. Install Docker
+
+Update the package list:
+
+sudo apt update
+
+Install Docker:
+
+sudo apt install -y docker-ce docker-ce-cli containerd.io
+
+8. Configure Docker
+
+Add the current user to the Docker group:
+
+sudo usermod -aG docker $USER
+
+Restart the terminal or run:
+
+newgrp docker
+
+9. Create Cassandra Project Directory
+
+Create the project directory:
+
+mkdir -p ~/cassandra-exercise
+
+Move into the directory:
+
+cd ~/cassandra-exercise
+
+10. Create Docker Compose File
+
+Create the Docker Compose configuration:
+
+nano docker-compose.yml
+
+11. Docker Compose Configuration
+
+Use the following configuration:
+
+services:
+  cassandra:
+    image: cassandra:latest
+    container_name: cassandra
+    hostname: cassandra
+
+    ports:
+      - "9042:9042"
+      - "9160:9160"
+
+    volumes:
+      - "./cassandra-data:/var/lib/cassandra"
+      - "./scripts:/scripts"
+
+    environment:
+      - CASSANDRA_CLUSTER_NAME=MyCluster
+      - CASSANDRA_DC=datacenter1
+      - CASSANDRA_RACK=rack1
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - CASSANDRA_NUM_TOKENS=256
+      - MAX_HEAP_SIZE=512M
+      - HEAP_NEWSIZE=100M
+
+    restart: unless-stopped
+
+12. Start Cassandra Container
+
+Start Cassandra using Docker Compose:
+
+docker compose up -d
+
+Wait for Cassandra to start:
+
+sleep 60
+
+13. Verify Cassandra Container
+
+Check the running Docker containers:
+
+docker ps
+
+The Cassandra container should appear in the list of running containers.
+
+14. Check Cassandra Logs
+
+View the Cassandra container logs:
+
+docker logs cassandra
+
+The logs can be used to verify that Cassandra has started successfully.
+
+15. Install CQLSH
+
+CQLSH is the Cassandra Query Language Shell used to interact with Cassandra.
+
+Option 1:
+
+sudo apt install -y python3-pip
+
+pip3 install cqlsh
+
+Option 2:
+
+sudo apt install -y cassandra-tools
+
+16. Connect to Cassandra
+
+Connect to the Cassandra server:
+
+cqlsh localhost 9042
+
+If the installation is successful, the Cassandra CQLSH prompt will appear.
+
+17. Running Cassandra
+
+Start the container:
+
+docker compose up -d
+
+Check the container:
+
+docker ps
+
+View logs:
+
+docker logs cassandra
+
+Connect to Cassandra:
+
+cqlsh localhost 9042
+
+18. Verification
+
+The installation can be considered successful when:
+
+- The Cassandra container is running.
+- Cassandra logs show successful startup.
+- Port 9042 is available.
+- CQLSH successfully connects to Cassandra.
+
+19. Learning Outcomes
+
+After completing this experiment, the following concepts are understood:
+
+- Docker installation on Ubuntu WSL.
+- Docker Compose configuration.
+- Running Apache Cassandra using Docker.
+- Cassandra container management.
+- CQLSH installation and usage.
+- Connecting to Cassandra.
+- Verifying a containerized NoSQL database.
+
+20. Result
+
+Apache Cassandra was successfully installed and configured on Ubuntu WSL using Docker.
+
+The Cassandra container was started successfully and the installation was verified using Docker commands and CQLSH.
+
+21. Conclusion
+
+This experiment demonstrates how Apache Cassandra can be installed and executed inside a Docker container on Ubuntu WSL.
+
+Docker provides an isolated and portable environment for Cassandra and simplifies the setup process.
+
+The Cassandra installation was successfully verified by checking the running container, viewing the logs, and connecting through CQLSH.
