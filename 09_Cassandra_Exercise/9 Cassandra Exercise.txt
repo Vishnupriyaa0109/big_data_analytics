@@ -1,0 +1,166 @@
+APACHE CASSANDRA EXERCISE – SPARKIFY MUSIC STREAMING
+
+1. Overview
+
+This exercise demonstrates Apache Cassandra data modeling using a music streaming dataset based on Sparkify.
+
+The exercise focuses on query-based table design, inserting data, executing CQL queries, demonstrating UPSERT operations, and working with Cassandra consistency levels.
+
+2. Objective
+
+The objectives of this exercise are:
+
+- Create a Cassandra keyspace.
+- Design query-specific tables.
+- Insert sample records.
+- Execute CQL queries.
+- Demonstrate UPSERT functionality.
+- Verify and change Cassandra consistency levels.
+
+3. Technologies Used
+
+Apache Cassandra
+Cassandra Query Language (CQL)
+cqlsh
+
+4. Create Keyspace
+
+Create the Sparkify keyspace:
+
+CREATE KEYSPACE IF NOT EXISTS sparkify
+WITH REPLICATION = {
+    'class': 'SimpleStrategy',
+    'replication_factor': '1'
+};
+
+5. Use Keyspace
+
+Select the Sparkify keyspace:
+
+USE sparkify;
+
+6. Create Tables
+
+Three query-specific tables are created:
+
+song_info_by_session
+
+song_playing_history_by_user
+
+who_listened_to_song
+
+7. Table 1 – Song Information by Session
+
+The song_info_by_session table stores song information according to the session.
+
+The table is designed to retrieve song information using the session ID.
+
+8. Table 2 – Song Playing History by User
+
+The song_playing_history_by_user table stores a user's song playing history.
+
+The table is designed to retrieve a user's songs using the user ID and session ID.
+
+9. Table 3 – Users Who Listened to a Song
+
+The who_listened_to_song table stores information about users who listened to particular songs.
+
+The table allows users who listened to a specific song to be retrieved.
+
+10. Insert Sample Data
+
+Sample records are inserted into the three tables using CQL INSERT statements.
+
+Example:
+
+INSERT INTO song_info_by_session
+(session_id, item_in_session, artist, song, length)
+VALUES
+(100, 1, 'The Beatles', 'Let It Be', 4.03);
+
+11. Execute Query 1
+
+Retrieve song information for session 100:
+
+SELECT *
+FROM song_info_by_session
+WHERE session_id = 100;
+
+12. Execute Query 2
+
+Retrieve the song playing history for user 1 and session 100:
+
+SELECT *
+FROM song_playing_history_by_user
+WHERE user_id = 1
+AND session_id = 100;
+
+13. Execute Query 3
+
+Find all users who listened to the song Hey Jude:
+
+SELECT *
+FROM who_listened_to_song
+WHERE song = 'Hey Jude';
+
+14. UPSERT Demonstration
+
+Cassandra performs an UPSERT when an INSERT operation uses the same primary key as an existing record.
+
+Example:
+
+INSERT INTO song_info_by_session
+(session_id, item_in_session, artist, song, length)
+VALUES
+(100, 1, 'The Beatles', 'Let It Be', 4.03);
+
+If a row with the same primary key already exists, Cassandra updates the existing row.
+
+15. Check Consistency Level
+
+Check the current consistency level:
+
+CONSISTENCY;
+
+16. Set Consistency Level
+
+Set the consistency level to ONE:
+
+CONSISTENCY ONE;
+
+17. Features Demonstrated
+
+Cassandra keyspace creation
+
+Query-driven data modeling
+
+Primary key design
+
+Data insertion
+
+CQL query execution
+
+UPSERT behavior
+
+Consistency level management
+
+18. Learning Outcomes
+
+After completing this exercise, the following concepts are understood:
+
+- Cassandra's query-first data modeling approach.
+- Designing tables for specific queries.
+- Using CQL for database operations.
+- Cassandra UPSERT functionality.
+- Cassandra consistency levels.
+- Query-based table design.
+
+19. Result
+
+The Cassandra exercise successfully demonstrates keyspace creation, query-specific table design, data insertion, CQL query execution, UPSERT operations, and consistency-level management.
+
+20. Conclusion
+
+This exercise provides practical experience with Apache Cassandra and demonstrates how its query-driven data modeling approach can be used for a music streaming application.
+
+The exercise also demonstrates important Cassandra concepts such as primary keys, UPSERT behavior, CQL queries, and consistency levels.
