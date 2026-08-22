@@ -1,0 +1,113 @@
+APACHE SPARK INSTALLATION AND CONFIGURATION
+
+OBJECTIVE
+
+To install and configure Apache Spark on Ubuntu Linux and verify the Spark environment.
+
+SOFTWARE REQUIREMENTS
+
+Ubuntu Linux 22.04 or later
+OpenJDK 21
+Apache Spark 4.1.x
+Hadoop 3.x
+Python 3.x
+
+STEP 1: UPDATE UBUNTU PACKAGES
+
+sudo apt update
+
+sudo apt upgrade -y
+
+STEP 2: INSTALL JAVA
+
+sudo apt install openjdk-21-jdk -y
+
+Verify Java:
+
+java -version
+
+STEP 3: CONFIGURE JAVA_HOME
+
+Find the Java installation:
+
+readlink -f $(which java)
+
+Set JAVA_HOME:
+
+export JAVA_HOME=/usr/lib/jvm/java-21-openjdk-amd64
+
+Verify:
+
+echo $JAVA_HOME
+
+STEP 4: DOWNLOAD APACHE SPARK
+
+Download Apache Spark from the official Apache Spark website.
+
+Extract the downloaded Spark archive:
+
+tar -xvf spark-4.1.0-bin-hadoop3.tgz
+
+STEP 5: MOVE SPARK
+
+sudo mv spark-4.1.0-bin-hadoop3 /opt/spark
+
+STEP 6: CONFIGURE SPARK ENVIRONMENT VARIABLES
+
+Add the following variables to ~/.bashrc:
+
+export SPARK_HOME=/opt/spark
+export PATH=$PATH:$SPARK_HOME/bin:$SPARK_HOME/sbin
+export PYSPARK_PYTHON=python3
+
+Reload the configuration:
+
+source ~/.bashrc
+
+STEP 7: VERIFY SPARK
+
+Check Spark version:
+
+spark-submit --version
+
+STEP 8: LAUNCH SPARK SHELL
+
+spark-shell
+
+The Spark Shell should start successfully.
+
+Exit the Spark Shell:
+
+:quit
+
+STEP 9: LAUNCH PYSPARK
+
+pyspark
+
+PySpark should start successfully.
+
+Exit PySpark:
+
+exit()
+
+STEP 10: VERIFY PYSPARK
+
+Run:
+
+pyspark
+
+Then execute:
+
+spark.version
+
+The installed Spark version should be displayed.
+
+RESULT
+
+Apache Spark was successfully installed and configured on Ubuntu Linux.
+
+Spark Shell and PySpark were launched successfully and the Spark installation was verified.
+
+CONCLUSION
+
+The installation exercise provides practical experience with installing Apache Spark, configuring environment variables, and verifying the Spark environment.
