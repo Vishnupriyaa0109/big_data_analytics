@@ -1,0 +1,182 @@
+SALES ANALYSIS USING HADOOP MAPREDUCE
+
+1. Objective
+
+The objective of this experiment is to analyze large-scale sales data using Hadoop MapReduce and Hadoop Streaming.
+
+The analysis performs the following tasks:
+
+- Calculate total sales for each product.
+- Identify the Top 5 products based on total sales.
+- Perform city-wise product sales analysis.
+
+2. Technologies Used
+
+Apache Hadoop
+HDFS
+YARN
+Hadoop Streaming
+Python 3
+MapReduce
+Ubuntu / WSL
+
+3. Dataset
+
+The input dataset is:
+
+sales_products_large.txt
+
+Each record contains four fields:
+
+Date
+Product
+Sales Amount
+City
+
+Example:
+
+2024-01-01,Laptop,45000,Delhi
+
+4. Dataset Structure
+
+The dataset follows this format:
+
+date,product,sales_amount,city
+
+5. Start Hadoop Services
+
+Start HDFS:
+
+start-dfs.sh
+
+Start YARN:
+
+start-yarn.sh
+
+Check Hadoop services:
+
+jps
+
+6. Create HDFS Input Directory
+
+Create the directory:
+
+hdfs dfs -mkdir -p /sales_analysis/input
+
+7. Upload Sales Dataset
+
+Upload the large dataset:
+
+hdfs dfs -put sales_products_large.txt /sales_analysis/input/
+
+8. Verify Uploaded Dataset
+
+Check the uploaded file:
+
+hdfs dfs -ls /sales_analysis/input
+
+9. Display Sales Dataset
+
+Display the input data:
+
+hdfs dfs -cat /sales_analysis/input/sales_products_large.txt
+
+10. Give Execute Permission
+
+Give execute permission to the Python programs:
+
+chmod +x mapper_top_products.py
+chmod +x reducer_top_products.py
+chmod +x mapper_city_products.py
+
+11. Find Hadoop Streaming JAR
+
+Run:
+
+ls $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming*.jar
+
+12. Product Sales Analysis
+
+Run the Hadoop Streaming job:
+
+hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-*.jar \
+-input /sales_analysis/input/sales_products_large.txt \
+-output /sales_analysis/output_top \
+-mapper mapper_top_products.py \
+-reducer reducer_top_products.py \
+-file mapper_top_products.py \
+-file reducer_top_products.py
+
+13. View Product Sales Output
+
+Display the output:
+
+hdfs dfs -cat /sales_analysis/output_top/part-00000
+
+The output displays the Top 5 products according to their total sales.
+
+14. City-wise Product Analysis
+
+Run the city-wise Mapper:
+
+hadoop jar $HADOOP_HOME/share/hadoop/tools/lib/hadoop-streaming-*.jar \
+-input /sales_analysis/input/sales_products_large.txt \
+-output /sales_analysis/output_city \
+-mapper mapper_city_products.py \
+-reducer NONE \
+-file mapper_city_products.py
+
+15. View City-wise Output
+
+Display the generated city-wise product data:
+
+hdfs dfs -cat /sales_analysis/output_city/part-00000
+
+16. Check Output Directories
+
+Check the product analysis output:
+
+hdfs dfs -ls /sales_analysis/output_top
+
+Check the city-wise output:
+
+hdfs dfs -ls /sales_analysis/output_city
+
+17. Remove Existing Output
+
+If the output directories already exist, remove them before running the jobs again.
+
+Remove product output:
+
+hdfs dfs -rm -r /sales_analysis/output_top
+
+Remove city-wise output:
+
+hdfs dfs -rm -r /sales_analysis/output_city
+
+18. Result
+
+The sales dataset was successfully uploaded to HDFS and processed using Hadoop Streaming.
+
+The product analysis calculates total sales for each product and identifies the Top 5 products.
+
+The city-wise Mapper generates product sales information grouped by city and product.
+
+19. Learning Outcomes
+
+After completing this experiment, the following concepts are understood:
+
+- Hadoop Streaming.
+- Python Mapper programs.
+- Python Reducer programs.
+- HDFS data storage.
+- Product-wise sales analysis.
+- Top-selling product identification.
+- City-wise product analysis.
+- Distributed processing of large datasets.
+
+20. Conclusion
+
+This experiment demonstrates how Hadoop MapReduce and Hadoop Streaming can be used with Python programs to analyze large-scale sales data stored in HDFS.
+
+The custom Mapper and Reducer programs process the dataset and provide product-wise and city-wise sales information.
