@@ -1,0 +1,125 @@
+HADOOP WORD COUNT USING MAPREDUCE
+
+1. Objective
+
+To implement the Word Count application using the Hadoop MapReduce framework and determine the frequency of each word in a text file.
+
+2. Technologies Used
+
+Apache Hadoop
+HDFS
+YARN
+MapReduce
+Java
+Ubuntu / WSL
+
+3. Input File
+
+The input file used for this experiment is:
+
+tech.txt
+
+The file contains information about Artificial Intelligence, Machine Learning, Big Data, Hadoop, and Spark.
+
+4. Start Hadoop Services
+
+Start HDFS:
+
+start-dfs.sh
+
+Start YARN:
+
+start-yarn.sh
+
+Check the running services:
+
+jps
+
+5. Verify the Input File
+
+Display the contents of the local input file:
+
+cat tech.txt
+
+6. Create an Input Directory in HDFS
+
+Create an HDFS directory:
+
+hdfs dfs -mkdir -p /wordcount/input
+
+7. Upload the Input File to HDFS
+
+Upload tech.txt:
+
+hdfs dfs -put tech.txt /wordcount/input/
+
+8. Verify the Uploaded File
+
+List the HDFS input directory:
+
+hdfs dfs -ls /wordcount/input
+
+9. Execute Hadoop Word Count
+
+Run the Hadoop MapReduce Word Count example:
+
+hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-*.jar wordcount /wordcount/input /wordcount/output
+
+10. Check the Output Directory
+
+List the generated output:
+
+hdfs dfs -ls /wordcount/output
+
+11. Display Word Count Results
+
+Display the output file:
+
+hdfs dfs -cat /wordcount/output/part-r-00000
+
+12. Example Output
+
+The output contains each word followed by the number of times it appears in the input file.
+
+Example:
+
+Artificial 1
+Intelligence 1
+Machine 1
+Learning 1
+Big 1
+Data 2
+Hadoop 1
+Spark 1
+
+The exact output depends on the input text and Hadoop processing.
+
+13. Important Note
+
+The output directory must not already exist before running the MapReduce Word Count program.
+
+If the output directory already exists, remove it using:
+
+hdfs dfs -rm -r /wordcount/output
+
+Then execute the Word Count command again.
+
+14. Verify the Result
+
+The final word frequency results can be viewed using:
+
+hdfs dfs -cat /wordcount/output/part-r-00000
+
+15. Stop Hadoop Services
+
+Stop YARN:
+
+stop-yarn.sh
+
+Stop HDFS:
+
+stop-dfs.sh
+
+16. Result
+
+The Hadoop MapReduce Word Count application was successfully executed. The input text file was uploaded to HDFS, processed using MapReduce, and the frequency of each word was generated and stored in the HDFS output directory.
