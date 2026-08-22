@@ -1,0 +1,112 @@
+PYSPARK WORD COUNT
+
+OBJECTIVE
+
+To implement the classic Word Count application using PySpark DataFrames and process text data using Apache Spark.
+
+STEP 1: START PYSPARK
+
+Run:
+
+pyspark
+
+STEP 2: IMPORT REQUIRED FUNCTIONS
+
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import explode
+from pyspark.sql.functions import split
+from pyspark.sql.functions import col
+
+STEP 3: CREATE SPARK SESSION
+
+spark = SparkSession.builder \
+    .appName("WordCount") \
+    .getOrCreate()
+
+STEP 4: CREATE SAMPLE DATA
+
+data = [
+    ("Apache Spark is fast",),
+    ("Spark is used for Big Data",),
+    ("PySpark provides Python APIs for Spark",)
+]
+
+df = spark.createDataFrame(data, ["text"])
+
+Display the DataFrame:
+
+df.show()
+
+STEP 5: SPLIT TEXT INTO WORDS
+
+words = df.select(
+    explode(
+        split(col("text"), " ")
+    ).alias("word")
+)
+
+Display the words:
+
+words.show()
+
+STEP 6: COUNT WORDS
+
+word_count = words.groupBy("word").count()
+
+STEP 7: SORT THE RESULTS
+
+result = word_count.orderBy(
+    col("count").desc()
+)
+
+STEP 8: DISPLAY WORD COUNT
+
+result.show()
+
+STEP 9: READ EXTERNAL TEXT FILE
+
+Read the sample text file:
+
+text_df = spark.read.text("sample.txt")
+
+Display the file:
+
+text_df.show()
+
+STEP 10: PERFORM WORD COUNT ON FILE
+
+file_words = text_df.select(
+    explode(
+        split(col("value"), " ")
+    ).alias("word")
+)
+
+file_word_count = file_words.groupBy(
+    "word"
+).count()
+
+Sort the results:
+
+file_result = file_word_count.orderBy(
+    col("count").desc()
+)
+
+Display the results:
+
+file_result.show()
+
+STEP 11: STOP SPARK
+
+spark.stop()
+
+RESULT
+
+The Word Count application was successfully implemented using PySpark.
+
+The program reads text data, splits the text into individual words, counts the frequency of each word, sorts the results, and displays the final word counts.
+
+CONCLUSION
+
+This exercise demonstrates how PySpark DataFrames can be used for text processing and distributed data analysis.
+
+It provides practical understanding of SparkSession, DataFrames, transformations, actions, and Word Count processing.
