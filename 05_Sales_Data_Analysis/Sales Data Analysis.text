@@ -1,0 +1,90 @@
+SALES DATA ANALYSIS USING HADOOP MAPREDUCE
+
+1. Objective
+
+To analyze sales data using Hadoop MapReduce and calculate the total sales amount for the given dataset.
+
+2. Technologies Used
+
+Apache Hadoop
+HDFS
+YARN
+MapReduce
+Java
+Ubuntu / WSL
+
+3. Input File
+
+The input file used for this experiment is:
+
+sales.txt
+
+The file contains product, category, and sales amount information.
+
+4. Start Hadoop Services
+
+Start HDFS:
+
+start-dfs.sh
+
+Start YARN:
+
+start-yarn.sh
+
+Check the running Hadoop services:
+
+jps
+
+5. Create HDFS Input Directory
+
+Create an input directory:
+
+hdfs dfs -mkdir -p /sales/input
+
+6. Upload Sales Data
+
+Upload the sales file to HDFS:
+
+hdfs dfs -put sales.txt /sales/input/
+
+7. Verify the Input File
+
+List the uploaded file:
+
+hdfs dfs -ls /sales/input
+
+8. Display Sales Data
+
+Display the contents of the input file:
+
+hdfs dfs -cat /sales/input/sales.txt
+
+9. Execute MapReduce Analysis
+
+Run the Hadoop MapReduce program to process the sales data:
+
+hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-*.jar wordcount /sales/input /sales/output
+
+10. Check Output
+
+List the generated output:
+
+hdfs dfs -ls /sales/output
+
+11. Display Output
+
+Display the MapReduce result:
+
+hdfs dfs -cat /sales/output/part-r-00000
+
+12. Analyze the Sales Data
+
+The sales data can be analyzed to determine the total sales amount and compare the sales values of different products and categories.
+
+13. Result
+
+The sales data was successfully uploaded to HDFS and processed using Hadoop MapReduce. The generated output was stored in HDFS.
+
+14. Conclusion
+
+This experiment demonstrates how Hadoop can be used to process sales data stored in HDFS and perform distributed analysis using the MapReduce framework.
