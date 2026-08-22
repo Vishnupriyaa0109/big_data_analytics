@@ -1,0 +1,122 @@
+HADOOP WORD COUNT ON MULTIPLE FILES
+
+1. Objective
+
+To execute the Hadoop MapReduce Word Count application on multiple input files stored in HDFS and identify the most frequently occurring words.
+
+2. Technologies Used
+
+Apache Hadoop
+HDFS
+YARN
+MapReduce
+Java
+Ubuntu / WSL
+
+3. Input Files
+
+The input files used in this experiment are:
+
+file1.txt
+file2.txt
+file3.txt
+
+4. Start Hadoop Services
+
+Start HDFS:
+
+start-dfs.sh
+
+Start YARN:
+
+start-yarn.sh
+
+Verify Hadoop services:
+
+jps
+
+5. Create HDFS Input Directory
+
+Create the input directory:
+
+hdfs dfs -mkdir -p /multiple_wordcount/input
+
+6. Upload Multiple Files to HDFS
+
+Upload all three files:
+
+hdfs dfs -put file1.txt file2.txt file3.txt /multiple_wordcount/input/
+
+7. Verify Uploaded Files
+
+List the files:
+
+hdfs dfs -ls /multiple_wordcount/input
+
+8. Display Input Files
+
+Display file1.txt:
+
+hdfs dfs -cat /multiple_wordcount/input/file1.txt
+
+Display file2.txt:
+
+hdfs dfs -cat /multiple_wordcount/input/file2.txt
+
+Display file3.txt:
+
+hdfs dfs -cat /multiple_wordcount/input/file3.txt
+
+9. Execute Word Count
+
+Run the Hadoop MapReduce Word Count program:
+
+hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-*.jar wordcount /multiple_wordcount/input /multiple_wordcount/output
+
+10. Check Output
+
+List the output directory:
+
+hdfs dfs -ls /multiple_wordcount/output
+
+11. Display Word Count Results
+
+Display the generated output:
+
+hdfs dfs -cat /multiple_wordcount/output/part-r-00000
+
+12. Sort Word Count Results
+
+The word count output can be sorted by frequency using:
+
+hdfs dfs -cat /multiple_wordcount/output/part-r-00000 | sort -k2 -nr
+
+13. Identify the Top Three Words
+
+The three most frequent words can be displayed using:
+
+hdfs dfs -cat /multiple_wordcount/output/part-r-00000 | sort -k2 -nr | head -3
+
+14. Important Note
+
+The output directory must not already exist before executing the Word Count program.
+
+If the output directory already exists, remove it using:
+
+hdfs dfs -rm -r /multiple_wordcount/output
+
+Then execute the Word Count command again.
+
+15. Stop Hadoop Services
+
+Stop YARN:
+
+stop-yarn.sh
+
+Stop HDFS:
+
+stop-dfs.sh
+
+16. Result
+
+The Hadoop MapReduce Word Count application was successfully executed on multiple input files. The files were uploaded to HDFS, processed together using MapReduce, and word frequency results were generated. The output was sorted to identify the three most frequently occurring words.
