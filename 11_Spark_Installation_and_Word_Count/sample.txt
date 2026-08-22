@@ -1,0 +1,11 @@
+Apache Spark is a fast and general-purpose cluster computing system.
+
+Spark provides high-level APIs for Java, Scala, Python, and R.
+
+PySpark allows Python applications to use the power of Apache Spark.
+
+Spark supports batch processing, streaming, machine learning, and graph processing.
+
+Big Data Analytics uses distributed computing to process large amounts of data.
+
+Apache Spark makes large-scale data processing faster and easier.
